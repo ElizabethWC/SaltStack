@@ -1,0 +1,36 @@
+# BELOW IS THE CODE TO MANIPULATE VPC PEERING CONNECTIONS
+
+# === HELPFUL RESOURCES === 
+# * https://docs.saltproject.io/en/latest/ref/states/all/salt.states.boto_vpc.html
+
+# ------------------------------------------REQUEST VPC PEERING CONNECTION----------------------------------------------
+
+request a vpc peering connection:
+  boto_vpc.request_vpc_peering_connection:
+    - requester_vpc_id: vpc-4a3d522e
+    - peer_vpc_id: vpc-ae81e9ca
+    - region: us-west-2
+    - conn_name: salt_vpc_peering
+    
+# -------------------------------------------ACCEPT VPC PEERING CONNECTION----------------------------------------------
+
+accept the vpc peering connection:
+  boto_vpc.accept_vpc_peering_connection:
+    - conn_name: salt_vpc_peering
+    - region: us-west-2
+    - require:
+      - boto_vpc: request a vpc peering connection 
+      
+# --------------------------------ACCEPT VPC PEERING CONNECTION W/O VPC CONNECTION NAME---------------------------------
+
+# VPC PEERING CONNECTIONS CAN BE CALLED WITH EITHER THE NAME AND REGION OR THE CONNECTION ID
+accept the vpc peering connection:
+  boto_vpc.accept_vpc_peering_connection:
+    - conn_id: pcx-1873c371
+    - region: us-west-2
+    
+# -------------------------------------------DELETE VPC PEERING CONNECTION ---------------------------------
+
+delete a vpc peering connection by id:
+  boto_vpc.delete_vpc_peering_connection:
+    - conn_id: pcx-1873c371
