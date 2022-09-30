@@ -1,0 +1,7 @@
+$ aws ec2 create-security-group 
+    --group-name MySecurityGroupSaltCloudInstances 
+    --description "The Security Group applied to all salt-cloud instances"
+$ aws ec2 authorize-security-group-ingress 
+    --group-name MySecurityGroupSaltCloudInstances 
+    --source-group MySecurityGroupSaltCloud 
+    --protocol tcp --port 22
