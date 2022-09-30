@@ -1,0 +1,17 @@
+my test alarm:
+  boto_cloudwatch_alarm.present:
+    - name: my test alarm
+    - attributes:
+        metric: ApproximateNumberOfMessagesVisible
+        namespace: AWS/SQS
+        statistic: Average
+        comparison: ">="
+        threshold: 20000.0
+        period: 60
+        evaluation_periods: 1
+        description: test alarm via salt
+        dimensions:
+          QueueName:
+            - the-sqs-queue-name
+        alarm_actions:
+          - arn:aws:sns:us-east-1:1111111:myalerting-action
