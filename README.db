@@ -1,0 +1,70 @@
+SaltStack Project
+
+Host Website Needs
+* A good name
+* An AWS account
+* 6 (?) AMIS for different website configurations
+* An engaging website with which a customer can...
+* * Choose a theme
+* * Choose customizations
+* * Provide their website content
+* * Securely pay
+* * Use a chat feature for any questions
+* * Press a big green button that launches their website and alerts/sends the setup info to master? Maybe that much automation isn't a good idea atl tleast at first
+
+Launching a Website Template
+
+=== Prerequisites ===
+* At least one AWS account (Will each customer have their own AWS account? The setup would be simpler if not.) 
+* At least one Salt master (I reccommend multiple masters)
+* Install SaltStack 
+* Install SaltCloud (may not be necessary depending on the SaltStack installation method) 
+* virtualenv
+* boto and boto3 libraries
+
+=== Shared Resources ===
+* Security groups (CAN SHARE?)
+* * Memcache
+* * ALB
+* * Wordpress approved for EC2
+
+=== Each website (including host) will need ==
+* A VPC
+* Subnets
+* * Public- how many?
+* * Private- how many?
+* Route tables
+* * Public
+    ::/0 	                    eigw 
+    0.0.0.0/0	                igw
+    10.0.0.0/16 	            local
+    2001:db8:1234:1a00::/56 	local
+    172.31.0.0/16 	          pcx
+* * Private 
+    0.0.0.0/0                 nat
+    2001:db8:1234:1a00::/56 	local
+    10.0.0.0/16               local
+    172.31.0.0/16             pcx
+* Internet gateway
+* Egress-only internet gateway
+* DHCP option set
+* Elastic IP
+* Managed prefix lists?
+* NAT gateway
+* Network ACLs
+* Key Pairs
+* 3 EC2 instances (1 STG and 2 PROD)
+* Target group
+* 3 ALB (PROD, PROD-TEST, and STG
+* RDS
+* Route53
+* Cloudwatch alarms (3 per instance)
+* Setup a provider 
+* Setup a VM Profile for each EC2 instance (can this be done as part of the EC2 creation?)
+* S3 bucket
+
+=== Useful Sources ===
+https://aws.amazon.com/blogs/mt/running-salt-states-using-amazon-ec2-systems-manager/
+https://faun.pub/automating-aws-infrastructure-using-saltstack-2b40aeadc7a9
+https://salt-cloud.readthedocs.io/en/latest/topics/aws.html
+https://jixee.me/saltstack-how-to-deploy-ec2-instances-with-salt-cloud/
